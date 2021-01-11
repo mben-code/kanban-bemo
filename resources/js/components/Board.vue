@@ -1,6 +1,19 @@
 <template>
-  <div class="lists">
-    <list v-for="(list, id) in lists" :key="list.title + id" :list="list" />
+  <draggable
+    :list="lists"
+    :animation="200"
+    tag="div"
+    class="lists"
+    draggable=".draggable-item"
+    ghost-class="ghost-class"
+  >
+    <list
+      v-for="(list, id) in lists"
+      :key="list.title + id"
+      :list="list"
+      class="draggable-item"
+    />
+
     <div class="list">
       <div
         v-if="!isToggleAddList"
@@ -26,47 +39,14 @@
         </div>
       </form>
     </div>
-  </div>
+  </draggable>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import List from "./List";
 import CustomButton from "./Button";
-
-const lists = [
-  {
-    title: "bababa",
-    list: [
-      {
-        title: "Lorem ipsum dolor sit amet",
-        description: "sdfasdfasd asdfasd",
-      },
-      {
-        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      },
-      {
-        title:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lobortis enim sit amet metus laoreet, ut condimentum",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lobortis enim sit amet metus laoreet, ut condimentum",
-      },
-    ],
-  },
-  {
-    title: "dasdfasdfasd",
-    list: [
-      {
-        title: "awerqef",
-        description: "werdfasdf werqwer",
-      },
-      {
-        title: "werfsdfqwer",
-        description: "werfs asdfwer",
-      },
-    ],
-  },
-];
+import draggable from "vuedraggable";
 
 export default {
   name: "Board",
@@ -74,13 +54,16 @@ export default {
   components: {
     List,
     CustomButton,
+    draggable,
   },
 
   data: () => ({
-    lists,
-
     isToggleAddList: false,
   }),
+
+  computed: {
+    ...mapGetters(["lists"]),
+  },
 
   methods: {
     onAddList() {},
@@ -89,4 +72,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../sass/variables";
+
+.ghost-class {
+  opacity: 0.7;
+  background-color: $ghost-bg-color;
+  color: $ghost-bg-color;
+}
 </style>

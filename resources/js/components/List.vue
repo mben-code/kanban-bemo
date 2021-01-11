@@ -6,13 +6,21 @@
         <custom-button icon="trash-alt" />
       </div>
     </header>
-    <ul>
+
+    <draggable
+      :list="list.list"
+      :animation="200"
+      group="board"
+      tag="ul"
+      ghost-class="ghost-class"
+    >
       <card
         v-for="(card, id) in list.list"
         :key="card.title + id"
         :card="card"
       />
-    </ul>
+    </draggable>
+
     <footer class="list__footer">
       <custom-button
         v-if="!isToggleAddCard"
@@ -43,6 +51,7 @@
 <script>
 import Card from "./Card";
 import CustomButton from "./Button";
+import draggable from "vuedraggable";
 
 export default {
   name: "List",
@@ -50,12 +59,14 @@ export default {
   components: {
     Card,
     CustomButton,
+    draggable,
   },
 
   props: ["list"],
 
   data: () => ({
     isToggleAddCard: false,
+    drag: false,
   }),
 
   computed: {
@@ -73,6 +84,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../sass/variables";
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -81,5 +94,12 @@ export default {
     display: block;
     flex: 1 0 auto;
   }
+}
+
+.ghost-class {
+  opacity: 0.7;
+  background-color: $ghost-bg-color;
+  border-radius: 3px;
+  color: $ghost-bg-color;
 }
 </style>
