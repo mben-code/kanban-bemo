@@ -1,68 +1,92 @@
 <template>
-  <div class="board">
-    <div class="board__header">Custom Board</div>
-    <div class="board__lists"></div>
+  <div class="lists">
+    <list v-for="(list, id) in lists" :key="list.title + id" :list="list" />
+    <div class="list">
+      <div
+        v-if="!isToggleAddList"
+        class="list--composer"
+        @click="isToggleAddList = true"
+      >
+        <font-icon icon="plus" />
+        Add another list
+      </div>
+      <form
+        v-if="isToggleAddList"
+        class="list--compose-form"
+        @submit.prevent="onAddList"
+      >
+        <input
+          type="text"
+          class="list--compose-form__name-input"
+          placeholder="Enter list title..."
+        />
+        <div class="list--compose-form__controls">
+          <input type="submit" class="clr-btn" value="Add List" />
+          <custom-button icon="times" @click.native="isToggleAddList = false" />
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import List from "./List";
+import CustomButton from "./Button";
 
 const lists = [
   {
-    title: 'bababa',
-    cards: [
+    title: "bababa",
+    list: [
       {
-        title: 'afafaf',
-        description: 'sdfasdfasd asdfasd',
+        title: "Lorem ipsum dolor sit amet",
+        description: "sdfasdfasd asdfasd",
       },
       {
-        title: 'sdfasdfasf',
-        description: 'sdfqwerw afsdfwerqwer',
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      },
+      {
+        title:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lobortis enim sit amet metus laoreet, ut condimentum",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lobortis enim sit amet metus laoreet, ut condimentum",
       },
     ],
   },
   {
-    title: 'dasdfasdfasd',
-    cards: [
+    title: "dasdfasdfasd",
+    list: [
       {
-        title: 'awerqef',
-        description: 'werdfasdf werqwer',
+        title: "awerqef",
+        description: "werdfasdf werqwer",
       },
       {
-        title: 'werfsdfqwer',
-        description: 'werfs asdfwer'
+        title: "werfsdfqwer",
+        description: "werfs asdfwer",
       },
     ],
   },
 ];
 
 export default {
-  name: 'Board',
+  name: "Board",
+
+  components: {
+    List,
+    CustomButton,
+  },
+
+  data: () => ({
+    lists,
+
+    isToggleAddList: false,
+  }),
+
+  methods: {
+    onAddList() {},
+  },
 };
 </script>
 
-<style lang="scss">
-@import '../../sass/variables';
-
-.board {
-  &__header {
-    padding: 10px;
-    font-size: 1.1rem;
-  }
-
-  &__body {
-    display: flex;
-    overflow-x: auto;
-
-    > * {
-      flex: 0 0 auto;
-      margin-left: $gap;
-    }
-
-    &::after {
-      content: '';
-      flex: 0 0 $gap;
-    }
-  }
-}
+<style lang="scss" scoped>
 </style>
