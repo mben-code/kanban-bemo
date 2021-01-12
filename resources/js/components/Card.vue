@@ -1,8 +1,8 @@
 <template>
-  <li class="card" @click="onEditCard">
+  <li class="card" @click.self="onEditCard">
     <div class="card__label">{{ card.title }}</div>
     <span class="card__operation">
-      <custom-button icon="trash-alt" />
+      <custom-button icon="trash-alt" @click.native="onRemove" />
     </span>
   </li>
 </template>
@@ -37,6 +37,10 @@ export default {
           description,
         }
       );
+    },
+
+    onRemove() {
+      this.$emit("remove", this.card);
     },
   },
 };
